@@ -11,7 +11,7 @@ class NewsNavbarScreen extends StatelessWidget {
 
   final controller = Get.put(NewsNavbarController());
 
-  final pages = [TasksScreen(), NewsScreen(), ProfileScreen()];
+  final pages = [TasksScreen(), NewsView(), ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {
