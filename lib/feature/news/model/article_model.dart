@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -151,13 +152,17 @@ class NewsRepository {
   // Private method to fetch and parse articles
   Future<List<Article>> _fetchArticles(String url) async {
     try {
-      print('Fetching from: $url');
+      if (kDebugMode) {
+        print('Fetching from: $url');
+      }
       final response = await http.get(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
       );
 
-      print('Response status: ${response.statusCode}');
+      if (kDebugMode) {
+        print('Response status: ${response.statusCode}');
+      }
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -174,7 +179,9 @@ class NewsRepository {
               )
               .toList();
 
-          print('Fetched ${articles.length} articles');
+          if (kDebugMode) {
+            print('Fetched ${articles.length} articles');
+          }
           return articles;
         } else {
           throw Exception('API returned error: ${data['message']}');
@@ -187,7 +194,9 @@ class NewsRepository {
         throw Exception('Failed to load articles: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching articles: $e');
+      if (kDebugMode) {
+        print('Error fetching articles: $e');
+      }
       rethrow;
     }
   }

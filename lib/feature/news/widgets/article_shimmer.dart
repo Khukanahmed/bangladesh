@@ -16,7 +16,6 @@ class ArticleShimmer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image shimmer
           _shimmerBox(
             context,
             height: 200,

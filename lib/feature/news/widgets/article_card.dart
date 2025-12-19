@@ -1,4 +1,5 @@
 import 'package:bangladesh/feature/news/model/article_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
@@ -43,7 +44,9 @@ class ArticleCard extends StatelessWidget {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
     } catch (e) {
-      print('Error launching URL: $e');
+      if (kDebugMode) {
+        print('Error launching URL: $e');
+      }
     }
   }
 
@@ -210,7 +213,10 @@ class ArticleCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton.icon(
-                        onPressed: () => _launchUrl(article.url),
+                        onPressed: () {
+                          print('article url: ${article.url}');
+                          _launchUrl(article.url);
+                        },
                         icon: const Icon(Icons.read_more, size: 16),
                         label: const Text('Read More'),
                         style: TextButton.styleFrom(

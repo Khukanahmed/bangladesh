@@ -2,6 +2,7 @@ import 'package:bangladesh/feature/news/controller/home_controller.dart';
 import 'package:bangladesh/feature/news/model/article_model.dart';
 import 'package:bangladesh/feature/news/widgets/article_shimmer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import '../widgets/article_card.dart';
 
 class NewsView extends StatefulWidget {
@@ -27,7 +28,6 @@ class _NewsViewState extends State<NewsView> {
       }
     };
 
-    // Load initial data
     _controller.fetchArticlesByCategory(NewsCategory.topHeadlines);
   }
 
@@ -88,10 +88,12 @@ class _NewsViewState extends State<NewsView> {
             ? TextField(
                 controller: _searchController,
                 autofocus: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Search articles...',
                   border: InputBorder.none,
-                  hintStyle: TextStyle(color: Colors.white70),
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
                 style: const TextStyle(color: Colors.white, fontSize: 16),
                 onChanged: (value) => _controller.searchArticles(value),
@@ -202,7 +204,6 @@ class _NewsViewState extends State<NewsView> {
       );
     }
 
-    // Articles list with pull-to-refresh
     return RefreshIndicator(
       onRefresh: _controller.refreshArticles,
       child: ListView.builder(
