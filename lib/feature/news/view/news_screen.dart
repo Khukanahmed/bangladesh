@@ -1,5 +1,6 @@
 import 'package:bangladesh/feature/news/controller/home_controller.dart';
 import 'package:bangladesh/feature/news/model/article_model.dart';
+import 'package:bangladesh/feature/news/widgets/article_shimmer.dart';
 import 'package:flutter/material.dart';
 import '../widgets/article_card.dart';
 
@@ -12,13 +13,14 @@ class NewsView extends StatefulWidget {
 
 class _NewsViewState extends State<NewsView> {
   late final NewsController _controller;
+  final TextEditingController _searchController = TextEditingController();
+  bool _isSearching = false;
 
   @override
   void initState() {
     super.initState();
     _controller = NewsController();
 
-    // Set up listener for state changes
     _controller.onStateChanged = () {
       if (mounted) {
         setState(() {});
@@ -32,6 +34,7 @@ class _NewsViewState extends State<NewsView> {
   @override
   void dispose() {
     _controller.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -67,25 +70,54 @@ class _NewsViewState extends State<NewsView> {
     );
   }
 
+  void _toggleSearch() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchController.clear();
+        _controller.clearSearch();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _controller.currentCategory.displayName,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Search articles...',
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.white70),
+                ),
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+                onChanged: (value) => _controller.searchArticles(value),
+              )
+            : Text(
+                _controller.currentCategory.displayName,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => _controller.refreshArticles(),
-            tooltip: 'Refresh',
+            icon: Icon(_isSearching ? Icons.close : Icons.search),
+            onPressed: _toggleSearch,
+            tooltip: _isSearching ? 'Close Search' : 'Search',
           ),
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: _showCategoryMenu,
-            tooltip: 'Select Category',
-          ),
+          if (!_isSearching) ...[
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () => _controller.refreshArticles(),
+              tooltip: 'Refresh',
+            ),
+            IconButton(
+              icon: const Icon(Icons.filter_list),
+              onPressed: _showCategoryMenu,
+              tooltip: 'Select Category',
+            ),
+          ],
         ],
       ),
       body: _buildBody(),
@@ -95,15 +127,12 @@ class _NewsViewState extends State<NewsView> {
   Widget _buildBody() {
     // Loading state
     if (_controller.isLoading && _controller.articles.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Loading news...'),
-          ],
-        ),
+      return ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return const ArticleShimmer();
+        },
       );
     }
 
@@ -145,15 +174,25 @@ class _NewsViewState extends State<NewsView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.article_outlined, size: 64, color: Colors.grey[400]),
+            Icon(
+              _controller.searchQuery.isNotEmpty
+                  ? Icons.search_off
+                  : Icons.article_outlined,
+              size: 64,
+              color: Colors.grey[400],
+            ),
             const SizedBox(height: 16),
             Text(
-              'No articles found',
+              _controller.searchQuery.isNotEmpty
+                  ? 'No results found'
+                  : 'No articles found',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 8),
             Text(
-              'Try selecting a different category',
+              _controller.searchQuery.isNotEmpty
+                  ? 'Try a different search term'
+                  : 'Try selecting a different category',
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),

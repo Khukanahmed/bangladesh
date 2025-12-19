@@ -118,35 +118,37 @@ class ArticleCard extends StatelessWidget {
                   // Source and Time
                   Row(
                     children: [
-                      if (article.source != null && article.source!.isNotEmpty)
-                        Flexible(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
+                      if (article.source.name.isNotEmpty &&
+                          article.publishedAt != null)
+                        const SizedBox(width: 8),
+
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            article.source.name,
+                            style: TextStyle(
+                              fontSize: 12,
                               color: Theme.of(
                                 context,
-                              ).colorScheme.primaryContainer,
-                              borderRadius: BorderRadius.circular(4),
+                              ).colorScheme.onPrimaryContainer,
+                              fontWeight: FontWeight.bold,
                             ),
-                            child: Text(
-                              article.source!,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onPrimaryContainer,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                      if (article.source != null && article.publishedAt != null)
-                        const SizedBox(width: 8),
+                      ),
+                      if (article.publishedAt != null) const SizedBox(width: 8),
                       if (article.publishedAt != null)
                         Flexible(
                           child: Row(
@@ -176,7 +178,6 @@ class ArticleCard extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  // Title
                   Text(
                     article.title ?? 'No title available',
                     style: const TextStyle(
@@ -190,7 +191,6 @@ class ArticleCard extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
-                  // Description
                   if (article.description != null &&
                       article.description!.isNotEmpty)
                     Text(
@@ -206,7 +206,6 @@ class ArticleCard extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  // Read More Button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
