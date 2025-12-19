@@ -4,9 +4,10 @@ import 'package:bangladesh/core/theme/controller/theme_controller.dart';
 class ProfileController extends GetxController {
   final ThemeController themeController = Get.find<ThemeController>();
 
-  var name = 'Khukan Ahmed'.obs;
+  var name = 'Khukan Miah'.obs;
   var email = 'khukannub99@gmail.com'.obs;
-  var profileImage = 'https://i.pravatar.cc/300'.obs;
+  var number = '01725310335'.obs;
+  var profileImage = 'https://avatars.githubusercontent.com/u/90517258?v=4'.obs;
 
   bool get isDarkMode => themeController.isDarkMode.value;
 

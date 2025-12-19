@@ -1,4 +1,5 @@
 import 'package:bangladesh/core/const/app_colors.dart';
+import 'package:bangladesh/core/const/icons_path.dart';
 import 'package:bangladesh/core/const/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -21,7 +22,7 @@ class SplashScreen extends StatelessWidget {
             child: SizedBox(
               height: 226,
               width: 226,
-              child: Image.asset(ImagePath.splashImg),
+              child: Image.asset(IconsPath.logo),
             ),
           ),
           Spacer(),
@@ -29,7 +30,7 @@ class SplashScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 50.0),
-              child: SpinKitCircle(color: AppColors.primaryColor, size: 90),
+              child: SpinKitCircle(color: Colors.red, size: 60),
             ),
           ),
         ],

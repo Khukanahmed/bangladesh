@@ -42,6 +42,7 @@ class TasksScreen extends StatelessWidget {
                       Get.defaultDialog(
                         title: 'Edit Task',
                         content: TextField(controller: textController),
+                        textConfirm: "Update Task",
                         onConfirm: () {
                           controller.updateTask(
                             Task(
@@ -73,6 +74,7 @@ class TasksScreen extends StatelessWidget {
           Get.defaultDialog(
             title: 'Add Task',
             content: TextField(controller: textController),
+            textConfirm: "Add Task",
             onConfirm: () {
               controller.addTask(
                 Task(

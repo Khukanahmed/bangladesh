@@ -3,7 +3,6 @@ import 'package:bangladesh/core/const/language_string.dart';
 import 'package:bangladesh/core/route/routes.dart';
 import 'package:bangladesh/core/theme/controller/theme_controller.dart';
 import 'package:bangladesh/core/theme/view/app_theme.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

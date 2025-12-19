@@ -43,6 +43,13 @@ class ProfileScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
               ),
             ),
+            const SizedBox(height: 6),
+            Obx(
+              () => Text(
+                controller.number.value,
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+              ),
+            ),
 
             const SizedBox(height: 30),
 
